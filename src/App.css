@@ -1,0 +1,668 @@
+/* Global styles */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f7f8fa;
+  color: #333;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Landing page layout */
+.landing {
+  display: flex;
+  height: 100vh;
+  background: url('https://tse1.mm.bing.net/th/id/OIP.sCIKcGoU5QJ2glmmpWWVEgHaEK?pid=Api&P=0&h=180') no-repeat center/cover;
+  background-color: #f7f8fa;
+  overflow: hidden; /* keep visual style; internal panels will scroll */
+  box-sizing: border-box;
+}
+
+/* Left panel */
+.left-panel {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  position: relative;
+  min-width: 220px;
+  box-sizing: border-box;
+}
+
+.left-panel img,
+.profile-pic {
+  width: 250px;
+  height: 300px;
+  border-radius: 50%;
+  border: 5px solid #fff;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+  margin: -30px 0 20px 0;
+  object-fit: cover;
+  display: block;
+}
+
+/* Contact info */
+.contact-info {
+  font-size: 14px;
+  color: white;
+  margin: 5px 0;
+  text-align: center;
+  word-break: break-word;
+}
+.contact-info a {
+  text-decoration: none;
+  color: white;
+  transition: color 0.3s ease;
+}
+.contact-info a:hover {
+  text-decoration: underline;
+  color: #0077b5;
+}
+.contact-info a:nth-child(2):hover {
+  color: #333; /* GitHub default */
+}
+
+/* Right panel */
+.right-panel {
+  flex: 7;
+  position: relative;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background: transparent;
+  box-sizing: border-box;
+
+  /* internal scroll so content is reachable when body overflow is hidden */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Name & role */
+.name {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #10c4c4;
+  margin-bottom: 10px;
+  letter-spacing: 0.4px;
+}
+
+.role {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: white;
+  margin-bottom: 30px;
+  line-height: 1.3;
+  max-width: 78%;
+}
+
+/* About Me bubble */
+.about-icon.center-right {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  z-index: 5;
+}
+
+.about-icon.center-right img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.about-icon.center-right .icon-text {
+  position: absolute;
+  font-weight: bold;
+  color: #de1e84;
+  font-size: 1.1rem;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.about-icon.center-right:hover {
+  transform: translate(-50%, -50%) scale(1.15);
+}
+
+/* Small helper when the right panel is shifted */
+.shift-up {
+  transform: translateY(-10px);
+  transition: transform 0.25s ease;
+}
+
+/* About Me expanded content - make it scrollable and responsive */
+.about-content {
+  margin-top: 20px;
+  width: 100%;
+  animation: fadeSlide 0.5s ease forwards;
+
+  max-height: calc(100vh - 220px);
+  overflow-y: auto;
+  padding-right: 8px;
+  box-sizing: border-box;
+}
+
+/* center helper class */
+.centered-content {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* =========================
+   GRID: 6 IMAGE-ONLY CARDS
+   ========================= */
+
+/* Grid layout */
+.grid-container {
+  margin-top: 8px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* desktop: 3 columns */
+  gap: 20px;
+  align-items: start;
+  grid-auto-rows: minmax(120px, auto);
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0;
+}
+
+/* Each tile - image-only, covers fully */
+.grid-box {
+  background: transparent;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+  overflow: hidden;
+   height: 200px;
+  min-height: 200px; /* ensures visible presence on desktop */
+  display: block;
+  position: relative;
+  padding: 10px; /* important so image fits exactly */
+  box-sizing: border-box;
+}
+
+/* Use aspect-ratio to keep uniform tiles; fallback will just use min-height */
+.grid-box::before {
+  content: "";
+  display: block;
+  padding-top: 100%; /* 1:1 square ratio; removes need for hard heights */
+}
+
+/* Place image absolutely so it fully covers the tile */
+.grid-box img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* crucial: image covers the whole card without distortion */
+  display: block;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+/* Hover zoom on image for a nice effect */
+.grid-box:hover img {
+  transform: scale(1.04);
+}
+
+/* Ensure no text/labels are visible anywhere inside the card on all devices */
+.grid-box span,
+.grid-box h3,
+.grid-box p,
+.grid-box .label,
+.grid-box .text,
+.grid-box .card-title {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+  overflow: hidden !important;
+}
+
+/* --- Contact Section Styles --- */
+.section {
+  padding: 60px 20px;
+  background: #f7f8fa;
+  box-sizing: border-box;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #10c4c4;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.contact-wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
+
+.contact-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-card,
+.social-card {
+  flex: 1 1 400px;
+  min-width: 300px;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.08);
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.contact-form .form-control {
+  padding: 12px 15px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.contact-form .form-control:focus {
+  border-color: #10c4c4;
+  box-shadow: 0 0 6px rgba(16, 196, 196, 0.18);
+  outline: none;
+}
+
+.contact-form button {
+  align-self: flex-start;
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  background-color: #10c4c4;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.contact-form button:hover {
+  background-color: #0d9a9a;
+}
+
+.social-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 15px;
+}
+
+.social-card a.btn-outline-primary {
+  border: 2px solid #10c4c4;
+  color: #10c4c4;
+  background: transparent;
+  padding: 10px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.24s ease, color 0.24s ease;
+}
+
+.social-card a.btn-outline-primary:hover {
+  background-color: #10c4c4;
+  color: #fff;
+}
+
+/* Internship Page Styles */
+.internship-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  box-sizing: border-box;
+}
+
+.internship-card {
+  position: relative;
+  width: 350px;
+  height: 300px;
+  background: linear-gradient(145deg, #ffffff, #f0f0f0);
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, border 0.3s ease;
+  border: 2px solid transparent;
+  box-sizing: border-box;
+}
+
+.internship-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.86);
+  transition: filter 0.4s ease, transform 0.3s ease;
+}
+.internship-card:hover img {
+  filter: brightness(1);
+  transform: scale(1.02);
+}
+
+.internship-card h6 {
+  position: absolute;
+  bottom: 15px;
+  left: 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.55);
+  padding: 6px 14px;
+  border-radius: 8px;
+  backdrop-filter: blur(3px);
+}
+
+/* Overlay details */
+.overlay {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(16, 196, 196, 0.95);
+  color: #fff;
+  padding: 30px 20px;
+  transition: top 0.4s ease;
+  overflow-y: auto;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  box-sizing: border-box;
+}
+
+.overlay.show {
+  top: 0;
+}
+
+.overlay p {
+  margin-bottom: 10px;
+  word-wrap: break-word;
+}
+
+.internship-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+  border: 2px solid #10c4c4;
+}
+.internship-card.active {
+  transform: scale(1.05);
+  border-color: #10c4c4;
+}
+
+/* Resume container */
+.resume-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #f3f4f6;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.resume-card {
+  position: relative;
+  width: 320px;
+  height: 400px;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  box-sizing: border-box;
+}
+
+.resume-card:hover {
+  transform: scale(1.02);
+}
+
+.resume-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.resume-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  box-sizing: border-box;
+}
+
+.resume-card:hover .resume-overlay {
+  opacity: 1;
+}
+
+.resume-overlay h2 {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.resume-overlay p {
+  font-size: 0.9rem;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.resume-overlay button {
+  margin: 4px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #fff;
+  background: #3b82f6;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.resume-overlay button:hover {
+  background: #2563eb;
+}
+
+.resume-overlay button:nth-child(2) {
+  background: #10b981;
+}
+
+.resume-overlay button:nth-child(2):hover {
+  background: #059669;
+}
+
+/* fadeSlide animation */
+@keyframes fadeSlide {
+  0% { opacity: 0; transform: translateY(-15px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------------- Responsive Breakpoints ---------------- */
+
+/* Large tablets / small desktops */
+@media (max-width: 1024px) {
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .left-panel img,
+  .profile-pic {
+    width: 220px;
+    height: 260px;
+    margin: -20px 0 14px 0;
+  }
+
+  .right-panel {
+    padding: 36px;
+  }
+}
+
+/* Tablets and phones */
+@media (max-width: 768px) {
+  .landing {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .left-panel,
+  .right-panel {
+    width: 100%;
+    padding: 18px;
+  }
+
+  .left-panel {
+    order: 1;
+    padding-top: 28px;
+    padding-bottom: 8px;
+  }
+
+  .right-panel {
+    order: 2;
+    padding: 16px;
+    max-height: calc(100vh - 220px);
+    overflow-y: auto;
+  }
+
+  .about-icon.center-right {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    margin: 12px auto;
+  }
+
+  .about-content {
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+    margin-top: 8px;
+  }
+
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr); /* tablet: 2 columns */
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  .grid-box {
+    min-height: 0; /* rely on aspect-ratio so mobile sizes are consistent */
+    border-radius: 10px;
+  }
+
+  /* keep labels hidden on mobile too (you asked for no names anywhere) */
+  .grid-box span,
+  .grid-box .label,
+  .grid-box h3,
+  .grid-box p {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  .name {
+    font-size: 2rem;
+  }
+
+  .role {
+    font-size: 1rem;
+  }
+}
+
+/* Narrow phones */
+@media (max-width: 420px) {
+  .grid-container {
+    grid-template-columns: 1fr; /* mobile: 1 column stacked */
+    gap: 10px;
+  }
+
+  .grid-box {
+    min-height: 160px;
+  }
+
+  .left-panel img,
+  .profile-pic {
+    width: 150px;
+    height: 150px;
+    margin: 0 0 12px 0;
+    border-width: 4px;
+  }
+
+  .about-icon.center-right {
+    width: 110px;
+    height: 110px;
+  }
+
+  .contact-info {
+    font-size: 12px;
+  }
+}
+
+/* Very small phones fallback */
+@media (max-width: 320px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Ensure overlays and internals behave on small screens */
+.overlay,
+.internship-card,
+.resume-card {
+  box-sizing: border-box;
+}
+
+/* Small visual polish */
+a { -webkit-tap-highlight-color: rgba(0,0,0,0.05); }
+img { max-width: 100%; height: auto; display: block; }
+* { box-sizing: border-box; }
+
+@media (max-width: 768px) {
+  body::after {
+    content: "";
+    display: block;
+    height: 60px; /* adjust space as needed */
+  }
+}
