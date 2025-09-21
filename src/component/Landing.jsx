@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import BoxGrid from "./BoxGrid";
 import "../App.css";
 import pick from './assest/ABI.jpg'
+import bg from "./assest/bg.jpg"
 import { FaLinkedin, FaGithub } from "react-icons/fa";
 
 export default function Landing({ onNavigate }) {
@@ -47,7 +48,7 @@ export default function Landing({ onNavigate }) {
       <div className={`right-panel ${showGrid ? "shift-up" : ""}`}>
         <div className="name">ABINAYA</div>
         <div className="role">
-          Full Stack Developer :- Aspiring MERN Stack Developer | Currently Learning Express.js at JSpiders | Soon Exploring MongoDB
+          I am a MERN Stack Developer actively seeking opportunities to contribute to front-end, back-end, and UI/UX projects. Proficient in React.js, Node.js, and Express.js, with a growing expertise in MongoDB. Passionate about creating efficient, scalable, and user-friendly web applications and collaborating in innovative development teams.
         </div>
 
         {!showGrid && (
