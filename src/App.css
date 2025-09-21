@@ -663,6 +663,6 @@ img { max-width: 100%; height: auto; display: block; }
   body::after {
     content: "";
     display: block;
-    height: 60px; /* adjust space as needed */
+    height: 60px; 
   }
 }

@@ -16,7 +16,7 @@ Tasks: Developed front-end web applications using HTML, CSS, JavaScript, and Boo
     {
       name: "JSpider",
       img: "https://www.topbengaluru.com/wp-content/uploads/2024/03/jspiders.jpg",
-      details: `Role: Full Stack Developer Intern
+      details: `Role: MERN Stack Developer Intern
 Duration: 6 months
 Location: Onsite
 Tasks: Backend APIs, Database Management, and frontend integration.`,
