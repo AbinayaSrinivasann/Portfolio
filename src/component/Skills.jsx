@@ -1,6 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { FaPython, FaHtml5, FaCss3Alt, FaJsSquare, FaReact, FaNodeJs, FaDatabase, FaFigma, FaGitAlt, FaWordpress, FaUsers } from "react-icons/fa";
+import {
+  FaPython,
+  FaHtml5,
+  FaCss3Alt,
+  FaJsSquare,
+  FaReact,
+  FaNodeJs,
+  FaDatabase,
+  FaFigma,
+  FaGitAlt,
+  FaWordpress,
+  FaUsers,
+} from "react-icons/fa";
 
 const skillCategories = [
   {
@@ -42,6 +54,13 @@ const skillCategories = [
 ];
 
 export default function Skills() {
+  // store the index of the currently flipped card (null = none)
+  const [flippedIndex, setFlippedIndex] = useState(null);
+
+  const toggleFlip = (index) => {
+    setFlippedIndex((prev) => (prev === index ? null : index));
+  };
+
   return (
     <section
       style={{
@@ -50,7 +69,9 @@ export default function Skills() {
         background: "#f0f4f8",
       }}
     >
-      <h1 style={{ textAlign: "center", marginBottom: "50px", color: "#0077b6" }}>
+      <h1
+        style={{ textAlign: "center", marginBottom: "50px", color: "#0077b6" }}
+      >
         My Skills 💡
       </h1>
 
@@ -65,21 +86,19 @@ export default function Skills() {
         {skillCategories.map((item, index) => (
           <motion.div
             key={index}
-            whileHover={{ scale: 1.05 }}
-            style={{
-              perspective: "1000px",
-            }}
+            style={{ perspective: "1000px" }}
+            onClick={() => toggleFlip(index)} // 👈 click/tap to flip
           >
-            {/* Flip card */}
             <motion.div
-              whileHover={{ rotateY: 180 }}
+              animate={{ rotateY: flippedIndex === index ? 180 : 0 }}
+              transition={{ duration: 0.6 }}
               style={{
                 width: "220px",
                 height: "220px",
                 borderRadius: "20px",
                 cursor: "pointer",
                 transformStyle: "preserve-3d",
-                transition: "transform 0.6s",
+                position: "relative",
               }}
             >
               {/* Front Side */}
@@ -100,7 +119,9 @@ export default function Skills() {
                 }}
               >
                 {item.icon}
-                <h3 style={{ marginTop: "15px", textAlign: "center" }}>{item.category}</h3>
+                <h3 style={{ marginTop: "15px", textAlign: "center" }}>
+                  {item.category}
+                </h3>
               </div>
 
               {/* Back Side */}
